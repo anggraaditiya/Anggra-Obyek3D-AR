@@ -1,1 +1,70 @@
 # Anggra-Obyek3D-AR
+Anggra Aditya 2113025020
+Mata Kuliah Augemted Reality
+
+Source Code:
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Objek Anggra</title>
+    <meta name="description" content="Anggra Aditya">
+    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-teleport-controls@0.2.0/dist/aframe-teleport-controls.min.js"></script>
+    <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.2/dist/aframe-controller-cursor-component.min.js"></script>
+    <script src="https://rawgit.com/dmarcos/aframe-motion-capture/master/dist/aframe-motion-capture.min.js"></script>
+    <script src="components/random-color.js"></script>
+    <script src="components/snap.js"></script>
+  </head>
+  <body>
+    <a-scene avatar-recorder>
+      <a-assets>
+        <img id="groundTexture" src="https://cdn.kibrispdr.org/data/605/gradasi-warna-hitam-16.jpg">
+        <img id="skyTexture" src="https://media.istockphoto.com/id/892192542/id/foto/spherical-360-derajat-mulus-panorama-dengan-lanskap-gurun.jpg?s=170667a&w=0&k=20&c=bhxlTlw67ob8VaYxV8wA_vIM8KFRNFQNwAW0uaplLsQ=">
+        <a-mixin id="voxel"
+           geometry="primitive: box; height: 0.5; width: 0.5; depth: 0.5"
+           material="shader: standard"
+           random-color
+           snap="offset: 0.25 0.25 0.25; snap: 0.5 0.5 0.5"
+        ></a-mixin>
+        <a-mixin id="triangle"
+           geometry="primitive: cone; height: 0.5; radiusBottom: 0.5; segmentsRadial: 3"
+           material="shader: standard"
+           random-color
+           snap="offset: 0.25 0.25 0.25; snap: 0.5 0.5 0.5"
+        ></a-mixin>
+      </a-assets>
+
+      <a-sky id="bg" radius="30" src="#skyTexture" theta-length="180"></a-sky>
+
+      <a-cylinder id="ground" src="#groundTexture" radius="32" height="0.1"></a-cylinder>
+
+      <!-- Persegi -->
+      <a-entity position="0 0.25 0" geometry="primitive: box; width: 2; height: 0.5; depth: 2" material="color: blue"></a-entity>
+
+      <!-- Segitiga -->
+      <a-entity position="-4 0.25 -2" mixin="triangle" material="color: pink"></a-entity>
+      <a-entity position="4 0.25 -2" mixin="triangle" material="color: green"></a-entity>
+      <a-entity position="-4 0.25 2" mixin="triangle" material="color: red"></a-entity>
+      <a-entity position="4 0.25 2" mixin="triangle" material="color: white"></a-entity>
+
+      <!-- Hands -->
+      <a-entity id="teleHand"
+        hand-controls="left"
+        teleport-controls="type: parabolic; collisionEntities: [mixin='voxel'], #ground"
+      ></a-entity>
+
+      <a-entity id="blockHand"
+        hand-controls="right"
+        controller-cursor
+        intersection-spawn="event: click; mixin: voxel"
+      ></a-entity>
+
+      <!-- Kamera -->
+      <a-camera>
+        <a-cursor
+          intersection-spawn="event: click; mixin: voxel"
+        ></a-cursor>
+      </a-camera>
+    </a-scene>
+  </body>
+</html>
